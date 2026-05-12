@@ -13,17 +13,19 @@ def get_animals_data():
     output_string = ""
     for animal in animals_data:
         if name := animal.get('name'):
-            output_string += f"Name: {name}\n"
+            output_string += '<li class="cards__item">'
+            output_string += f"Name: {name}<br/>\n"
 
         char = animal.get('characteristics', {})
         if a_type := char.get('type'):
-            output_string += f"Type: {a_type}\n"
+            output_string += f"Type: {a_type}<br/>\n"
 
         if diet := char.get('diet'):
-            output_string += f"Diet: {diet}\n"
+            output_string += f"Diet: {diet}<br/>\n"
 
         if location := animal.get('locations', [None]):
-            output_string += f"Location: {location[0]}\n"
+            output_string += f"Location: {location[0]}<br/>\n"
+            output_string += '</li>'
 
     return output_string
 
