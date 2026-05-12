@@ -10,26 +10,40 @@ def load_data(file_path):
 def get_animals_data():
     animals_data = load_data('animals_data.json')
 
+    output_string = ""
     for animal in animals_data:
         if name := animal.get('name'):
-            print(f"Name: {name}")
+            output_string += f"Name: {name}\n"
 
         char = animal.get('characteristics', {})
         if a_type := char.get('type'):
-            print(f"Type: {a_type}")
+            output_string += f"Type: {a_type}\n"
 
         if diet := char.get('diet'):
-            print(f"Diet: {diet}")
+            output_string += f"Diet: {diet}\n"
 
         if location := animal.get('locations', [None]):
-            print(f"Location: {location[0]}")
+            output_string += f"Location: {location[0]}\n"
 
-        print()
+    return output_string
 
+
+def read_html_file(file_path):
+    with open(file_path, 'r') as file:
+        return file.read()
+
+
+def write_html_file(file_path, content):
+    with open(file_path, 'w') as file:
+        file.write(content)
 
 
 def main():
-    get_animals_data()
+    animal_data = get_animals_data()
+    html_content = read_html_file('animals_template.html')
+    html_content = html_content.replace('__REPLACE_ANIMALS_INFO__', animal_data)
+    write_html_file('animals.html', html_content)
+
 
 
 if __name__ == "__main__":
