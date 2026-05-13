@@ -14,6 +14,8 @@ def serialize_animal():
     for animal in animals_data:
         name = animal.get('name')
         char = animal.get('characteristics', {})
+        tax = animal.get('taxonomy', {})
+        scientific_name = tax.get('scientific_name')
         a_type = char.get('type')
         diet = char.get('diet')
         location = animal.get('locations', [None])[0]
@@ -22,6 +24,7 @@ def serialize_animal():
         <li class="cards__item">
           <div class="card__title">{name}</div>
           <p class="card__text">
+              <strong>Scientific Name:</strong> <i>{scientific_name}</i><br/>
               <strong>Diet:</strong> {diet}<br/>
               <strong>Location:</strong> {location}<br/>
               <strong>Type:</strong> {a_type}<br/>
