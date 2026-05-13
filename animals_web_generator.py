@@ -12,26 +12,32 @@ def serialize_animal():
 
     output_string = ""
     for animal in animals_data:
-        name = animal.get('name')
         char = animal.get('characteristics', {})
         tax = animal.get('taxonomy', {})
-        scientific_name = tax.get('scientific_name')
-        a_type = char.get('type')
-        diet = char.get('diet')
-        location = animal.get('locations', [None])[0]
+        name = animal.get('name', '-')
 
-        card_item_template = f"""
-        <li class="cards__item">
-          <div class="card__title">{name}</div>
-          <p class="card__text">
-              <strong>Scientific Name:</strong> <i>{scientific_name}</i><br/>
-              <strong>Diet:</strong> {diet}<br/>
-              <strong>Location:</strong> {location}<br/>
-              <strong>Type:</strong> {a_type}<br/>
-          </p>
-        </li>
-        """
-        output_string += card_item_template
+        details = {
+            "Scientific Name": tax.get('scientific_name'),
+            "Diet": char.get('diet'),
+            "Location": animal.get('locations', [None])[0],
+            "Type": char.get('type')
+        }
+
+        list_items = ""
+        for label, value in details.items():
+            if value:
+                list_items += f"<li><strong>{label}:</strong> {value}</li>\n"
+
+        output_string += f"""
+                <li class="cards__item">
+                  <div class="card__title">{name}</div>
+                  <div class="card__text">
+                    <ul class="card__list">
+                      {list_items}
+                    </ul>
+                  </div>
+                </li>
+                """
 
     return output_string
 
