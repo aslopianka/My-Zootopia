@@ -1,6 +1,5 @@
 import json
 
-
 def load_data(file_path):
   """ Loads a JSON file """
   with open(file_path, "r") as handle:
@@ -12,20 +11,23 @@ def get_animals_data():
 
     output_string = ""
     for animal in animals_data:
-        if name := animal.get('name'):
-            output_string += '<li class="cards__item">'
-            output_string += f"Name: {name}<br/>\n"
-
+        name = animal.get('name')
         char = animal.get('characteristics', {})
-        if a_type := char.get('type'):
-            output_string += f"Type: {a_type}<br/>\n"
+        a_type = char.get('type')
+        diet = char.get('diet')
+        location = animal.get('locations', [None])[0]
 
-        if diet := char.get('diet'):
-            output_string += f"Diet: {diet}<br/>\n"
-
-        if location := animal.get('locations', [None]):
-            output_string += f"Location: {location[0]}<br/>\n"
-            output_string += '</li>'
+        card_item_template = f"""
+        <li class="cards__item">
+          <div class="card__title">{name}</div>
+          <p class="card__text">
+              <strong>Diet:</strong> {diet}<br/>
+              <strong>Location:</strong>{location}<br/>
+              <strong>Type:</strong> {a_type}<br/>
+          </p>
+        </li>
+        """
+        output_string += card_item_template
 
     return output_string
 
